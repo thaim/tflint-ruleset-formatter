@@ -1,4 +1,4 @@
-module github.com/terraform-linters/tflint-ruleset-template
+module github.com/thaim/tflint-ruleset-stricter
 
 go 1.20
 
