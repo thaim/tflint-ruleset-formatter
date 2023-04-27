@@ -1,5 +1,5 @@
 # TFLint Ruleset with prettier
-[![Build Status](https://github.com/terraform-linters/tflint-ruleset-template/workflows/build/badge.svg?branch=main)](https://github.com/terraform-linters/tflint-ruleset-template/actions)
+[![Build Status](https://github.com/thaim/tflint-ruleset-prettier/workflows/build/badge.svg?branch=main)](https://github.com/thaim/tflint-ruleset-prettier/actions)
 
 TFLint ruleset plugin for Terraform Language with prettier syntax check.
 This ruleset achieves prettier syntax checking that cannot be detected in 'terraform fmt'.
