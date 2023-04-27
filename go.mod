@@ -1,4 +1,4 @@
-module github.com/thaim/tflint-ruleset-stricter
+module github.com/thaim/tflint-ruleset-prettier
 
 go 1.20
 

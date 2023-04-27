@@ -1,8 +1,8 @@
-# TFLint Ruleset with stricter
+# TFLint Ruleset with prettier
 [![Build Status](https://github.com/terraform-linters/tflint-ruleset-template/workflows/build/badge.svg?branch=main)](https://github.com/terraform-linters/tflint-ruleset-template/actions)
 
-TFLint ruleset plugin for Terraform Language with stricter syntax check.
-This ruleset achieves stricter syntax checking that cannot be detected in 'terraform fmt'.
+TFLint ruleset plugin for Terraform Language with prettier syntax check.
+This ruleset achieves prettier syntax checking that cannot be detected in 'terraform fmt'.
 
 ## Requirements
 
@@ -16,11 +16,11 @@ TODO: This template repository does not contain release binaries, so this instal
 You can install the plugin with `tflint --init`. Declare a config in `.tflint.hcl` as follows:
 
 ```hcl
-plugin "stricter" {
+plugin "prettier" {
   enabled = true
 
   version = "0.1.0"
-  source  = "github.com/thaim/tflint-ruleset-stricter"
+  source  = "github.com/thaim/tflint-ruleset-prettier"
 }
 ```
 
@@ -47,7 +47,7 @@ You can run the built plugin like the following:
 
 ```
 $ cat << EOS > .tflint.hcl
-plugin "stricter" {
+plugin "prettier" {
   enabled = true
 }
 EOS

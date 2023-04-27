@@ -8,4 +8,4 @@ build:
 
 install: build
 	mkdir -p ~/.tflint.d/plugins
-	mv ./tflint-ruleset-stricter ~/.tflint.d/plugins
+	mv ./tflint-ruleset-prettier ~/.tflint.d/plugins
