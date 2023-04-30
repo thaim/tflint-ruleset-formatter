@@ -16,7 +16,7 @@ func main() {
 				rules.NewAwsS3BucketExampleLifecycleRule(),
 				rules.NewGoogleComputeSSLPolicyRule(),
 				rules.NewTerraformBackendTypeRule(),
-				rules.NewTerraformTrailingCommaRule(),
+				rules.NewPrettierTrailingCommaRule(),
 			},
 		},
 	})
