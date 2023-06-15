@@ -17,6 +17,7 @@ func main() {
 				rules.NewGoogleComputeSSLPolicyRule(),
 				rules.NewTerraformBackendTypeRule(),
 				rules.NewPrettierTrailingCommaRule(),
+				rules.NewPrettierMaxLenRule(),
 			},
 		},
 	})
