@@ -6,31 +6,31 @@ import (
 	"github.com/terraform-linters/tflint-plugin-sdk/tflint"
 )
 
-type PrettierMaxLenRule struct {
+type FormatterMaxLenRule struct {
 	tflint.DefaultRule
 }
 
-func NewPrettierMaxLenRule() *PrettierMaxLenRule {
-	return &PrettierMaxLenRule{}
+func NewFormatterMaxLenRule() *FormatterMaxLenRule {
+	return &FormatterMaxLenRule{}
 }
 
-func (r *PrettierMaxLenRule) Name() string {
+func (r *FormatterMaxLenRule) Name() string {
 	return "prettier_max_len"
 }
 
-func (r *PrettierMaxLenRule) Enabled() bool {
+func (r *FormatterMaxLenRule) Enabled() bool {
 	return true
 }
 
-func (r *PrettierMaxLenRule) Severity() tflint.Severity {
+func (r *FormatterMaxLenRule) Severity() tflint.Severity {
 	return tflint.WARNING
 }
 
-func (r *PrettierMaxLenRule) Link() string {
+func (r *FormatterMaxLenRule) Link() string {
 	return ""
 }
 
-func (r *PrettierMaxLenRule) Check(runner tflint.Runner) error {
+func (r *FormatterMaxLenRule) Check(runner tflint.Runner) error {
 	files, err := runner.GetFiles()
 	if err != nil {
 		return err
@@ -44,7 +44,7 @@ func (r *PrettierMaxLenRule) Check(runner tflint.Runner) error {
 	return nil
 }
 
-func (r *PrettierMaxLenRule) checkLineLength(runner tflint.Runner, filename string, file *hcl.File) error {
+func (r *FormatterMaxLenRule) checkLineLength(runner tflint.Runner, filename string, file *hcl.File) error {
 	tokens, diags := hclsyntax.LexConfig(file.Bytes, filename, hcl.InitialPos)
 	if diags.HasErrors() {
 		return diags

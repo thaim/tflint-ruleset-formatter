@@ -7,7 +7,7 @@ import (
 	"github.com/terraform-linters/tflint-plugin-sdk/helper"
 )
 
-func Test_PrettierMaxLenRune(t *testing.T) {
+func Test_FormatterMaxLenRune(t *testing.T) {
 	tests := []struct {
 		Name     string
 		Content    string
@@ -22,7 +22,7 @@ resource "aws_instance" "too_long_resource_name_for_aws_instance_since_prettier_
 }`,
 			Expected: helper.Issues{
 				{
-					Rule:    NewPrettierMaxLenRule(),
+					Rule:    NewFormatterMaxLenRule(),
 					Message: "Line length is too long",
 					Range: hcl.Range{
 						Filename: "resource.tf",
@@ -31,7 +31,7 @@ resource "aws_instance" "too_long_resource_name_for_aws_instance_since_prettier_
 					},
 				},
 				{
-					Rule:    NewPrettierMaxLenRule(),
+					Rule:    NewFormatterMaxLenRule(),
 					Message: "Line length is too long",
 					Range: hcl.Range{
 						Filename: "resource.tf",
@@ -40,7 +40,7 @@ resource "aws_instance" "too_long_resource_name_for_aws_instance_since_prettier_
 					},
 				},
 				{
-					Rule:    NewPrettierMaxLenRule(),
+					Rule:    NewFormatterMaxLenRule(),
 					Message: "Line length is too long",
 					Range: hcl.Range{
 						Filename: "resource.tf",
@@ -52,7 +52,7 @@ resource "aws_instance" "too_long_resource_name_for_aws_instance_since_prettier_
 		},
 	}
 
-	rule := NewPrettierMaxLenRule()
+	rule := NewFormatterMaxLenRule()
 
 	for _, test := range tests {
 		t.Run(test.Name, func(t *testing.T) {
