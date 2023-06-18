@@ -7,39 +7,39 @@ import (
 	"github.com/terraform-linters/tflint-plugin-sdk/tflint"
 )
 
-// PrettierTrailingCommaRule checks whether list/tuple values are terminated with a comma
-type PrettierTrailingCommaRule struct {
+// FormatterTrailingCommaRule checks whether list/tuple values are terminated with a comma
+type FormatterTrailingCommaRule struct {
 	tflint.DefaultRule
 }
 
-// PrettierTrailingCommaRule returns a new rule
-func NewPrettierTrailingCommaRule() *PrettierTrailingCommaRule {
-	return &PrettierTrailingCommaRule{}
+// FormatterTrailingCommaRule returns a new rule
+func NewFormatterTrailingCommaRule() *FormatterTrailingCommaRule {
+	return &FormatterTrailingCommaRule{}
 }
 
 // Name returns the rule name
-func (r *PrettierTrailingCommaRule) Name() string {
+func (r *FormatterTrailingCommaRule) Name() string {
 	return "terraform_trailing_comma"
 }
 
 // Enabled returns whether the rule is enabled by default
-func (r *PrettierTrailingCommaRule) Enabled() bool {
+func (r *FormatterTrailingCommaRule) Enabled() bool {
 	return true
 }
 
 // Severity returns the rule severity
-func (r *PrettierTrailingCommaRule) Severity() tflint.Severity {
+func (r *FormatterTrailingCommaRule) Severity() tflint.Severity {
 	return tflint.ERROR
 }
 
 // Link returns the rule reference link
-func (r *PrettierTrailingCommaRule) Link() string {
+func (r *FormatterTrailingCommaRule) Link() string {
 	return ""
 }
 
 // Check checks whether list/tuple values are terminated with a comma
-func (r *PrettierTrailingCommaRule) Check(runner tflint.Runner) error {
-	logger.Debug("start PrettierTrailingCommaRule")
+func (r *FormatterTrailingCommaRule) Check(runner tflint.Runner) error {
+	logger.Debug("start FormatterTrailingCommaRule")
 	diags := runner.WalkExpressions(tflint.ExprWalkFunc(func(expr hcl.Expression) hcl.Diagnostics {
 		// Check if the expression is a literal
 		if lit, ok := expr.(*hclsyntax.LiteralValueExpr); ok {
