@@ -1,3 +1,3 @@
-plugin "prettier" {
+plugin "formatter" {
   enabled = true
 }
