@@ -4,6 +4,7 @@ import (
 	"github.com/hashicorp/hcl/v2"
 	"github.com/hashicorp/hcl/v2/hclsyntax"
 	"github.com/terraform-linters/tflint-plugin-sdk/tflint"
+	"github.com/thaim/tflint-ruleset-formatter/project"
 )
 
 type FormatterMaxLenRule struct {
@@ -27,7 +28,7 @@ func (r *FormatterMaxLenRule) Severity() tflint.Severity {
 }
 
 func (r *FormatterMaxLenRule) Link() string {
-	return ""
+	return project.ReferenceLink(r.Name())
 }
 
 func (r *FormatterMaxLenRule) Check(runner tflint.Runner) error {
