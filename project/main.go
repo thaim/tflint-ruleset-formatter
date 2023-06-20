@@ -12,7 +12,7 @@ func ReferenceLink(name string) string {
 
 func getVersion() string {
 	i, ok := debug.ReadBuildInfo()
-	if !ok {
+	if !ok || i.Main.Version == "(devel)" {
 		return "main"
 	}
 
