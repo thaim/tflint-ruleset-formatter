@@ -16,7 +16,7 @@ func NewFormatterMaxLenRule() *FormatterMaxLenRule {
 }
 
 func (r *FormatterMaxLenRule) Name() string {
-	return "prettier_max_len"
+	return "formatter_max_len"
 }
 
 func (r *FormatterMaxLenRule) Enabled() bool {
