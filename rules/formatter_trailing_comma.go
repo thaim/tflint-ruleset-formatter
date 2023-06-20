@@ -19,7 +19,7 @@ func NewFormatterTrailingCommaRule() *FormatterTrailingCommaRule {
 
 // Name returns the rule name
 func (r *FormatterTrailingCommaRule) Name() string {
-	return "terraform_trailing_comma"
+	return "formatter_trailing_comma"
 }
 
 // Enabled returns whether the rule is enabled by default
