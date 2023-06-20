@@ -23,7 +23,7 @@ resource "aws_instance" "too_long_resource_name_for_aws_instance_since_prettier_
 			Expected: helper.Issues{
 				{
 					Rule:    NewFormatterMaxLenRule(),
-					Message: "Line length is too long",
+					Message: "Line length is too long (current: 108, max: 80)",
 					Range: hcl.Range{
 						Filename: "resource.tf",
 						Start:    hcl.Pos{Line: 2, Column: 26},
@@ -32,7 +32,7 @@ resource "aws_instance" "too_long_resource_name_for_aws_instance_since_prettier_
 				},
 				{
 					Rule:    NewFormatterMaxLenRule(),
-					Message: "Line length is too long",
+					Message: "Line length is too long (current: 109, max: 80)",
 					Range: hcl.Range{
 						Filename: "resource.tf",
 						Start:    hcl.Pos{Line: 2, Column: 108},
@@ -41,7 +41,7 @@ resource "aws_instance" "too_long_resource_name_for_aws_instance_since_prettier_
 				},
 				{
 					Rule:    NewFormatterMaxLenRule(),
-					Message: "Line length is too long",
+					Message: "Line length is too long (current: 111, max: 80)",
 					Range: hcl.Range{
 						Filename: "resource.tf",
 						Start:    hcl.Pos{Line: 2, Column: 110},
