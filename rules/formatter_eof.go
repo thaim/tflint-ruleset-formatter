@@ -51,7 +51,7 @@ func (r *FormatterEOFRule) checkEOF(runner tflint.Runner, filename string, file 
 
 	last := file.Bytes[len(file.Bytes)-1]
 	if last != '\n' {
-		eofRange := hcl.Range{
+		eofRange := hcl.Range{ // FIXME
 			Filename: filename,
 			Start:    hcl.Pos{Line: 1, Column: 1},
 			End:    hcl.Pos{Line: 1, Column: 2},
