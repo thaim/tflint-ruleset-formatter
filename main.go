@@ -14,6 +14,7 @@ func main() {
 			Rules: []tflint.Rule{
 				rules.NewFormatterTrailingCommaRule(),
 				rules.NewFormatterMaxLenRule(),
+				rules.NewFormatterEOFRule(),
 			},
 		},
 	})
