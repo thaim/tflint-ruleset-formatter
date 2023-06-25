@@ -1,6 +1,8 @@
 package rules
 
 import (
+	"fmt"
+
 	"github.com/hashicorp/hcl/v2"
 	"github.com/hashicorp/hcl/v2/hclsyntax"
 	"github.com/terraform-linters/tflint-plugin-sdk/logger"
@@ -44,7 +46,7 @@ func (r *FormatterTrailingCommaRule) Check(runner tflint.Runner) error {
 		// Check if the expression is a literal
 		if lit, ok := expr.(*hclsyntax.LiteralValueExpr); ok {
 			// Check if the literal is a list or tuple
-			logger.Debug("literal value expression: %s", lit.Val.GoString())
+			logger.Debug(fmt.Sprintf("literal value expression: %s", lit.Val.GoString()))
 			if lit.Val.Type().IsListType() || lit.Val.Type().IsTupleType() {
 				// Check if the last element is a comma
 				// treat all as error for debug
@@ -59,6 +61,8 @@ func (r *FormatterTrailingCommaRule) Check(runner tflint.Runner) error {
 						}
 					}
 				}
+			} else {
+				logger.Debug(fmt.Sprintf("literal value expression is not a list or tuple: %s", lit.Val.Type()))
 			}
 		}
 		return nil
