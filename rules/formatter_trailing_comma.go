@@ -43,26 +43,30 @@ func (r *FormatterTrailingCommaRule) Link() string {
 func (r *FormatterTrailingCommaRule) Check(runner tflint.Runner) error {
 	logger.Debug("start FormatterTrailingCommaRule")
 	diags := runner.WalkExpressions(tflint.ExprWalkFunc(func(expr hcl.Expression) hcl.Diagnostics {
-		// Check if the expression is a literal
-		if lit, ok := expr.(*hclsyntax.LiteralValueExpr); ok {
-			// Check if the literal is a list or tuple
-			logger.Debug(fmt.Sprintf("literal value expression: %s", lit.Val.GoString()))
-			if lit.Val.Type().IsListType() || lit.Val.Type().IsTupleType() {
-				// Check if the last element is a comma
-				// treat all as error for debug
-				if true {
-					if err := runner.EmitIssue(r, "List value should end with a comma.", lit.Range()); err != nil {
-						return hcl.Diagnostics{
-							{
-								Severity: hcl.DiagError,
-								Summary:  "Failed to emit issue",
-								Detail:   err.Error(),
-							},
-						}
-					}
+		tuple, ok := expr.(*hclsyntax.TupleConsExpr)
+		if !ok {
+			return nil
+		}
+		val, diag := tuple.Value(nil)
+		if diag.HasErrors() {
+			return diag
+		}
+		if len(tuple.Exprs) <= 1 {
+			// logger.Debug(fmt.Sprintf("tuple value expression has few element(%d): %s", len(tuple.Exprs), val.GoString()))
+			return nil
+		}
+
+		// Check if the last element is a comma
+		// treat all as error for debug
+		if true {
+			if err := runner.EmitIssue(r, fmt.Sprintf("List value should end with a comma (elm: %d): %s", len(tuple.Exprs), val), expr.Range()); err != nil {
+				return hcl.Diagnostics{
+					{
+						Severity: hcl.DiagError,
+						Summary:  "Failed to emit issue",
+						Detail:   err.Error(),
+					},
 				}
-			} else {
-				logger.Debug(fmt.Sprintf("literal value expression is not a list or tuple: %s", lit.Val.Type()))
 			}
 		}
 		return nil
