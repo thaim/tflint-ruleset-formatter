@@ -30,11 +30,11 @@ data "aws_iam_policy_document" "example" {
 			Expected: helper.Issues{
 				{
 					Rule:    NewFormatterTrailingCommaRule(),
-					Message: "no new line at end of file",
+					Message: "List value should end with a comma (actual: 1, expected: 2)",
 					Range: hcl.Range{
 						Filename: "resource.tf",
-						Start:    hcl.Pos{Line: 6, Column: 6},
-						End:      hcl.Pos{Line: 6, Column: 20},
+						Start:    hcl.Pos{Line: 5, Column: 15},
+						End:      hcl.Pos{Line: 8, Column: 6},
 					},
 				},
 			},

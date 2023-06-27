@@ -47,19 +47,30 @@ func (r *FormatterTrailingCommaRule) Check(runner tflint.Runner) error {
 		if !ok {
 			return nil
 		}
-		val, diag := tuple.Value(nil)
-		if diag.HasErrors() {
-			return diag
-		}
 		if len(tuple.Exprs) <= 1 {
-			// logger.Debug(fmt.Sprintf("tuple value expression has few element(%d): %s", len(tuple.Exprs), val.GoString()))
 			return nil
 		}
 
-		// Check if the last element is a comma
-		// treat all as error for debug
-		if true {
-			if err := runner.EmitIssue(r, fmt.Sprintf("List value should end with a comma (elm: %d): %s", len(tuple.Exprs), val), expr.Range()); err != nil {
+		// convert TupleConsExpr to tokens and count number of commas
+		file, _ := runner.GetFile(tuple.SrcRange.Filename)
+		tokens, diags := hclsyntax.LexConfig(
+			file.Bytes[tuple.SrcRange.Start.Byte:tuple.SrcRange.End.Byte],
+			tuple.SrcRange.Filename,
+			tuple.SrcRange.Start,
+		)
+		if diags.HasErrors() {
+			return diags
+		}
+		count := 0
+		for _, token := range tokens {
+			if token.Type == hclsyntax.TokenComma {
+				count++
+			}
+		}
+
+		if count != len(tuple.Exprs) {
+			msg := fmt.Sprintf("List value should end with a comma (actual: %d, expected: %d)", count, len(tuple.Exprs))
+			if err := runner.EmitIssue(r, msg, expr.Range()); err != nil {
 				return hcl.Diagnostics{
 					{
 						Severity: hcl.DiagError,
