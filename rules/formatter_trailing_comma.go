@@ -7,6 +7,7 @@ import (
 	"github.com/hashicorp/hcl/v2/hclsyntax"
 	"github.com/terraform-linters/tflint-plugin-sdk/logger"
 	"github.com/terraform-linters/tflint-plugin-sdk/tflint"
+	"github.com/thaim/tflint-ruleset-formatter/project"
 )
 
 // FormatterTrailingCommaRule checks whether list/tuple values are terminated with a comma
@@ -36,7 +37,7 @@ func (r *FormatterTrailingCommaRule) Severity() tflint.Severity {
 
 // Link returns the rule reference link
 func (r *FormatterTrailingCommaRule) Link() string {
-	return ""
+	return project.ReferenceLink(r.Name())
 }
 
 // Check checks whether list/tuple values are terminated with a comma
