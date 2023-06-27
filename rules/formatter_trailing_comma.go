@@ -1,10 +1,13 @@
 package rules
 
 import (
+	"fmt"
+
 	"github.com/hashicorp/hcl/v2"
 	"github.com/hashicorp/hcl/v2/hclsyntax"
 	"github.com/terraform-linters/tflint-plugin-sdk/logger"
 	"github.com/terraform-linters/tflint-plugin-sdk/tflint"
+	"github.com/thaim/tflint-ruleset-formatter/project"
 )
 
 // FormatterTrailingCommaRule checks whether list/tuple values are terminated with a comma
@@ -34,30 +37,47 @@ func (r *FormatterTrailingCommaRule) Severity() tflint.Severity {
 
 // Link returns the rule reference link
 func (r *FormatterTrailingCommaRule) Link() string {
-	return ""
+	return project.ReferenceLink(r.Name())
 }
 
 // Check checks whether list/tuple values are terminated with a comma
 func (r *FormatterTrailingCommaRule) Check(runner tflint.Runner) error {
 	logger.Debug("start FormatterTrailingCommaRule")
 	diags := runner.WalkExpressions(tflint.ExprWalkFunc(func(expr hcl.Expression) hcl.Diagnostics {
-		// Check if the expression is a literal
-		if lit, ok := expr.(*hclsyntax.LiteralValueExpr); ok {
-			// Check if the literal is a list or tuple
-			logger.Debug("literal value expression: %s", lit.Val.GoString())
-			if lit.Val.Type().IsListType() || lit.Val.Type().IsTupleType() {
-				// Check if the last element is a comma
-				// treat all as error for debug
-				if true {
-					if err := runner.EmitIssue(r, "List value should end with a comma.", lit.Range()); err != nil {
-						return hcl.Diagnostics{
-							{
-								Severity: hcl.DiagError,
-								Summary:  "Failed to emit issue",
-								Detail:   err.Error(),
-							},
-						}
-					}
+		tuple, ok := expr.(*hclsyntax.TupleConsExpr)
+		if !ok {
+			return nil
+		}
+		if len(tuple.Exprs) <= 1 {
+			return nil
+		}
+
+		// convert TupleConsExpr to tokens and count number of commas
+		file, _ := runner.GetFile(tuple.SrcRange.Filename)
+		tokens, diags := hclsyntax.LexConfig(
+			file.Bytes[tuple.SrcRange.Start.Byte:tuple.SrcRange.End.Byte],
+			tuple.SrcRange.Filename,
+			tuple.SrcRange.Start,
+		)
+		if diags.HasErrors() {
+			return diags
+		}
+		count := 0
+		for _, token := range tokens {
+			if token.Type == hclsyntax.TokenComma {
+				count++
+			}
+		}
+
+		if count != len(tuple.Exprs) {
+			msg := fmt.Sprintf("List value should end with a comma (actual: %d, expected: %d)", count, len(tuple.Exprs))
+			if err := runner.EmitIssue(r, msg, expr.Range()); err != nil {
+				return hcl.Diagnostics{
+					{
+						Severity: hcl.DiagError,
+						Summary:  "Failed to emit issue",
+						Detail:   err.Error(),
+					},
 				}
 			}
 		}
