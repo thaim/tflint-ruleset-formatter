@@ -15,6 +15,7 @@ func main() {
 				rules.NewFormatterTrailingCommaRule(),
 				rules.NewFormatterMaxLenRule(),
 				rules.NewFormatterEOFRule(),
+				rules.NewFormatterBlankLineRule(),
 			},
 		},
 	})
