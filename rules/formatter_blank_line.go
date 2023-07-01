@@ -65,6 +65,20 @@ func (r *FormatterBlankLineRule) checkTooManyBlankLines(runner tflint.Runner, na
 	}
 
 	runes := []rune(string(file.Bytes))
+	err := r.checkFileStart(runner, name, runes)
+	if err != nil {
+		return err
+	}
+
+	err = r.checkFileEnd(runner, name, runes)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (r *FormatterBlankLineRule) checkFileStart(runner tflint.Runner, name string, runes []rune) error {
 	line := 0
 	for ; line < len(runes); line++ {
 		if runes[line] != '\n' {
@@ -78,34 +92,43 @@ func (r *FormatterBlankLineRule) checkTooManyBlankLines(runner tflint.Runner, na
 			Start: hcl.Pos{Line: 1, Column: 1},
 			End: hcl.Pos{Line: 1+line, Column: 1},
 		}
-		runner.EmitIssue(
+		err := runner.EmitIssue(
 			r,
-			"too many blank lines",
+			"too many blank lines at start of file",
 			issueRange,
 		)
-		logger.Debug(fmt.Sprintf("found too many blank line at start of %s", name))
+		if err != nil {
+			return err
+		}
 	}
 
+	return nil
+}
+
+func (r *FormatterBlankLineRule) checkFileEnd(runner tflint.Runner, name string, runes []rune) error {
 	totalLine := countLines(runes)
-	logger.Debug(fmt.Sprintf("totalLine: %d in %s", totalLine, name))
-	for line = 0; line < totalLine; line++ {
+	line := 0
+
+	for ; line < totalLine; line++ {
 		if runes[len(runes)-line-1] != '\n' {
 			break
 		}
 	}
-	logger.Debug(fmt.Sprintf("found %d newline at end of %s", line, name))
+
 	if line > 1 {
 		issueRange := hcl.Range{
 			Filename: name,
 			Start: hcl.Pos{Line: totalLine-(line-1), Column: 1},
 			End: hcl.Pos{Line: totalLine, Column: 1},
 		}
-		runner.EmitIssue(
+		err := runner.EmitIssue(
 			r,
-			"too many blank lines",
+			"too many blank lines at end of file",
 			issueRange,
 		)
-		logger.Debug(fmt.Sprintf("found too many blank line at end of %s", name))
+		if err != nil {
+			return err
+		}
 	}
 
 	return nil

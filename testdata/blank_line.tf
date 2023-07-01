@@ -1,23 +1,25 @@
 
-variable "blank_at_block_start" {
+// blank line at the beginning of the file
+resource "aws_instance" "blank_line_at_the_beginning_of_the_block" {
 
-  type    = string
-  default = "development"
+  ami           = "ami-0c55b159cbfafe1f0"
+  instance_type = "t2.micro"
+}
+// blank line between the blocks
+
+
+
+resource "aws_instance" "blank_line_at_the_end_of_the_block" {
+  ami           = "ami-0c55b159cbfafe1f0"
+  instance_type = "t2.micro"
+
 }
 
+resource "aws_instance" "blank_at_block_middle" {
+  ami = "ami-0c55b159cbfafe1f0"
 
 
-variable "blank_at_block_end" {
-  type    = string
-  default = "dev"
-
+  instance_type = "t2.micro"
 }
-
-variable "blank_at_block_middle" {
-  type = string
-
-
-  default = "dev"
-}
-
+// blank line at the end of the file
 
