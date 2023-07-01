@@ -22,7 +22,7 @@ resource "null_resource" "null" {
 			Expected: helper.Issues{
 				{
 					Rule:    NewFormatterBlankLineRule(),
-					Message: "too many blank lines",
+					Message: "too many blank lines at start of file",
 					Range: hcl.Range{
 						Filename: "resource.tf",
 						Start:    hcl.Pos{Line: 1, Column: 1},
@@ -40,7 +40,7 @@ resource "null_resource" "null" {
 			Expected: helper.Issues{
 				{
 					Rule:    NewFormatterBlankLineRule(),
-					Message: "too many blank lines",
+					Message: "too many blank lines at end of file",
 					Range: hcl.Range{
 						Filename: "resource.tf",
 						Start:    hcl.Pos{Line: 3, Column: 1},
