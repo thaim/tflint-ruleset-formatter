@@ -18,3 +18,15 @@ resource "null_resource" "foo" {
 
 
 ```
+
+
+```hcl
+resource "null_resource" "foo" {
+}
+// more than two blank lines between blocks.
+
+
+
+resource "null_resource" "foo" {
+}
+```
