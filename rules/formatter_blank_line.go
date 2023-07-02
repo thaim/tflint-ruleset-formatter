@@ -142,7 +142,6 @@ func (r *FormatterBlankLineRule) checkFileEnd(runner tflint.Runner, name string,
 
 func (r *FormatterBlankLineRule) checkFileMiddle(runner tflint.Runner, name string, file *hcl.File) error {
 	bodyLines := splitNewline(string(file.Bytes))
-	logger.Debug(fmt.Sprintf("start check File Middle for %s with total lines = %d", name, len(bodyLines)))
 
 	firstNonBlankLine := 1
 	for ; firstNonBlankLine <= len(bodyLines); firstNonBlankLine++ {
@@ -164,7 +163,6 @@ func (r *FormatterBlankLineRule) checkFileMiddle(runner tflint.Runner, name stri
 		logger.Debug(fmt.Sprintf("empty file %s", name))
 		return nil
 	}
-	logger.Debug(fmt.Sprintf("firstNonBlankLine = %d, lastNonBlankLine = %d", firstNonBlankLine, lastNonBlankLine))
 
 	for line = firstNonBlankLine+1; line < lastNonBlankLine - 1; line++ {
 		if bodyLines[line] == "" && bodyLines[line+1] == "" && bodyLines[line+2] == "" {
@@ -175,8 +173,6 @@ func (r *FormatterBlankLineRule) checkFileMiddle(runner tflint.Runner, name stri
 			}
 
 			if block != nil {
-				logger.Debug(fmt.Sprintf("found too many blank lines in block at %s in line %d (block %s %s)", name, line, block.Type, block.Labels[1]))
-
 				err := runner.EmitIssue(
 					r,
 					"too many blank lines in the middle of file",
@@ -188,7 +184,6 @@ func (r *FormatterBlankLineRule) checkFileMiddle(runner tflint.Runner, name stri
 
 				line = block.DefRange.End.Line - 1
 			} else {
-				logger.Debug(fmt.Sprintf("found too many blank lines in non block at %s in line %d", name, line))
 				lineEnd := line+2
 				for ; lineEnd < lastNonBlankLine; lineEnd++ {
 					if bodyLines[lineEnd] != "" {
