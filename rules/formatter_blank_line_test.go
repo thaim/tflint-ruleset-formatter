@@ -49,6 +49,28 @@ resource "null_resource" "null" {
 				},
 			},
 		},
+		{
+			Name: "blank at middle of file",
+			Content: `resource "null_resource" "first" {
+}
+
+
+
+resource "null_resource" "second" {
+}
+`,
+			Expected: helper.Issues{
+				{
+					Rule:    NewFormatterBlankLineRule(),
+					Message: "too many blank lines at middle of file",
+					Range: hcl.Range{
+						Filename: "resource.tf",
+						Start:    hcl.Pos{Line: 3, Column: 1},
+						End:      hcl.Pos{Line: 5, Column: 1},
+					},
+				},
+			},
+		},
 	}
 
 	rule := NewFormatterBlankLineRule()
