@@ -11,23 +11,23 @@ This ruleset achieves more syntax checking that cannot be detected in 'terraform
 
 ## Installation
 
-TODO: This template repository does not contain release binaries, so this installation will not work. Please rewrite for your repository. See the "Building the plugin" section to get this template ruleset working.
-
-You can install the plugin with `tflint --init`. Declare a config in `.tflint.hcl` as follows:
+Clone this repository, and run `make install` to install plugin.
+Declare a config in `.tflint.hcl` as follows:
 
 ```hcl
 plugin "formatter" {
   enabled = true
-
-  version = "0.1.0"
-  source  = "github.com/thaim/tflint-ruleset-formatter"
 }
 ```
 
 ## Rules
 
-|Name|Description|Severity|Enabled|Link|
-| --- | --- | --- | --- | --- |
+|Rule|Description|Severity|Enabled by default|
+| --- | --- | --- | --- |
+|[formatter_blank_line](docs/rules/formatter_blank_line.md)|ensures that there are no extra blank lines|WARNING|✔
+|[formatter_eof](docs/rules/formatter_eof.md)|ensures that file end with new line|WARNING|✔
+|[formatter_max_len](docs/rules/formatter_max_len.md)|ensures the limitation of code line length|WARNING|✔
+|[formatter_trailing_comma](docs/rules/formatter_trailing_comma.md)|ensures that tuple element always end with comma|WARNING|✔
 
 ## Building the plugin
 
@@ -52,4 +52,11 @@ plugin "formatter" {
 }
 EOS
 $ tflint
+```
+
+## Writing a new rule
+Run command below and answer the options.
+
+```
+$ go run rules/generator/main.go
 ```
