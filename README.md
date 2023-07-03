@@ -26,8 +26,12 @@ plugin "formatter" {
 
 ## Rules
 
-|Name|Description|Severity|Enabled|Link|
-| --- | --- | --- | --- | --- |
+|Rule|Description|Severity|Enabled by default|
+| --- | --- | --- | --- |
+|[formatter_blank_line](docs/rules/formatter_blank_line.md)|ensures that there are no extra blank lines|WARNING|✔
+|[formatter_eof](docs/rules/formatter_eof.md)|ensures that file end with new line|WARNING|✔
+|[formatter_max_len](docs/rules/formatter_max_len.md)|ensures the limitation of code line length|WARNING|✔
+|[formatter_trailing_comma](docs/rules/formatter_trailing_comma.md)|ensures that tuple element always end with comma|WARNING|✔
 
 ## Building the plugin
 
