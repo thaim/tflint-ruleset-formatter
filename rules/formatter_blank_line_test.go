@@ -71,6 +71,48 @@ resource "null_resource" "second" {
 				},
 			},
 		},
+		{
+			Name: "blank at start of block",
+			Content: `resource "null_resource" "null" {
+
+  triggers = {
+	foo = "bar"
+  }
+}
+`,
+			Expected: helper.Issues{
+				{
+					Rule:    NewFormatterBlankLineRule(),
+					Message: "too many blank lines at start of block",
+					Range: hcl.Range{
+						Filename: "resource.tf",
+						Start:    hcl.Pos{Line: 2, Column: 1},
+						End:      hcl.Pos{Line: 3, Column: 1},
+					},
+				},
+			},
+		},
+		{
+			Name: "blank at end of block",
+			Content: `resource "null_resource" "null" {
+  triggers = {
+	foo = "bar"
+  }
+
+}
+`,
+			Expected: helper.Issues{
+				{
+					Rule:    NewFormatterBlankLineRule(),
+					Message: "too many blank lines at end of block",
+					Range: hcl.Range{
+						Filename: "resource.tf",
+						Start:    hcl.Pos{Line: 5, Column: 1},
+						End:      hcl.Pos{Line: 6, Column: 1},
+					},
+				},
+			},
+		},
 	}
 
 	rule := NewFormatterBlankLineRule()
