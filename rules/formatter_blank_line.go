@@ -5,6 +5,7 @@ import (
 	"strings"
 
 	"github.com/hashicorp/hcl/v2"
+	"github.com/hashicorp/hcl/v2/hclsyntax"
 	"github.com/terraform-linters/tflint-plugin-sdk/logger"
 	"github.com/terraform-linters/tflint-plugin-sdk/tflint"
 	"github.com/thaim/tflint-ruleset-formatter/project"
@@ -79,6 +80,17 @@ func (r *FormatterBlankLineRule) checkTooManyBlankLines(runner tflint.Runner, na
 	err = r.checkFileMiddle(runner, name, file)
 	if err != nil {
 		return err
+	}
+
+	hclsyntaxBody, ok := file.Body.(*hclsyntax.Body)
+	if !ok {
+		logger.Debug(fmt.Sprintf("cannot cast file.Body to hclsyntax.Body in %s", name))
+		return nil
+	}
+	bodyLines := splitNewline(string(file.Bytes))
+	for _, block := range hclsyntaxBody.Blocks {
+		r.checkBlockStart(runner, name, block, bodyLines)
+		r.checkBlockEnd(runner, name, block, bodyLines)
 	}
 
 	return nil
@@ -206,6 +218,60 @@ func (r *FormatterBlankLineRule) checkFileMiddle(runner tflint.Runner, name stri
 
 				line = lineEnd
 			}
+		}
+	}
+
+	return nil
+}
+
+func (r *FormatterBlankLineRule) checkBlockStart(runner tflint.Runner, name string, block *hclsyntax.Block, bodyLines []string) error {
+	logger.Debug(fmt.Sprintf("check block start at %d and end at %d in %s", block.Range().Start.Line, block.Range().End.Line, name))
+
+	line := block.Range().Start.Line + 1
+	for ; line < block.Range().End.Line; line++ {
+		if bodyLines[line-1] != "" {
+			break
+		}
+	}
+	if line != block.Range().Start.Line + 1 {
+		err := runner.EmitIssue(
+			r,
+			"too many blank lines at start of block",
+			hcl.Range{
+				Filename: name,
+				Start: hcl.Pos{Line: block.Range().Start.Line+1, Column: 1},
+				End: hcl.Pos{Line: line, Column: 1},
+			},
+		)
+		if err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (r *FormatterBlankLineRule) checkBlockEnd(runner tflint.Runner, name string, block *hclsyntax.Block, bodyLines []string) error {
+	logger.Debug(fmt.Sprintf("check block start at %d and end at %d in %s", block.Range().Start.Line, block.Range().End.Line, name))
+
+	line := 1
+	for ; block.Range().End.Line - line > block.Range().Start.Line; line++ {
+		if bodyLines[block.Range().End.Line - line - 1] != "" {
+			break
+		}
+	}
+	if line != 1 {
+		err := runner.EmitIssue(
+			r,
+			"too many blank lines at end of block",
+			hcl.Range{
+				Filename: name,
+				Start: hcl.Pos{Line: block.Range().End.Line - line + 1, Column: 1},
+				End: hcl.Pos{Line: block.Range().End.Line, Column: 1},
+			},
+		)
+		if err != nil {
+			return err
 		}
 	}
 

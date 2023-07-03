@@ -30,3 +30,23 @@ resource "null_resource" "foo" {
 resource "null_resource" "bar" {
 }
 ```
+
+```hcl
+resource "null_resource" "null" {
+
+  // block start with blank line
+  trigger {
+    foo = "bar"
+  }
+}
+```
+
+```hcl
+resource "null_resource" "null" {
+  trigger {
+    foo = "bar"
+  }
+  // block end with blank line
+
+}
+```
