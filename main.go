@@ -7,6 +7,16 @@ import (
 	"github.com/thaim/tflint-ruleset-formatter/rules"
 )
 
+var (
+	version = "main"
+	commit  = "none"
+	date    = "unknown"
+)
+
+func init() {
+	project.SetVersion(version)
+}
+
 func main() {
 	plugin.Serve(&plugin.ServeOpts{
 		RuleSet: &tflint.BuiltinRuleSet{

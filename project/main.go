@@ -12,6 +12,10 @@ func ReferenceLink(name string) string {
 	return fmt.Sprintf("https://github.com/thaim/tflint-ruleset-formatter/blob/%s/docs/rules/%s.md", GetVersion(), name)
 }
 
+func SetVersion(v string) {
+	version = v
+}
+
 func GetVersion() string {
 	if version != "" {
 		return version

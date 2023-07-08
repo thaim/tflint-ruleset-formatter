@@ -6,7 +6,7 @@ test:
 	go test ./...
 
 build:
-	go build -ldflags "-s -w -X github.com/thaim/tflint-ruleset-formatter/project.version=${GIT_VERSION}"
+	go build -ldflags "-s -w -X main.version=${GIT_VERSION}"
 
 install: build
 	mkdir -p ~/.tflint.d/plugins
