@@ -32,7 +32,7 @@ func (r *FormatterTrailingCommaRule) Enabled() bool {
 
 // Severity returns the rule severity
 func (r *FormatterTrailingCommaRule) Severity() tflint.Severity {
-	return tflint.ERROR
+	return tflint.WARNING
 }
 
 // Link returns the rule reference link
