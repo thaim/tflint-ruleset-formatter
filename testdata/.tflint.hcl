@@ -2,7 +2,7 @@ plugin "formatter" {
   enabled = true
   # remove source and version to use local installed plugin
   source = "github.com/thaim/tflint-ruleset-formatter"
-  version = "0.2.3"
+  version = "0.2.4"
 
   signing_key = <<-KEY
 -----BEGIN PGP PUBLIC KEY BLOCK-----
