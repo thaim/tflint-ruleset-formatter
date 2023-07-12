@@ -18,7 +18,7 @@ plugin "formatter" {
   version = "0.2.4"
   source  = "github.com/thaim/tflint-ruleset-formatter"
 
-  signing_key <<-KEY
+  signing_key = <<-KEY
 -----BEGIN PGP PUBLIC KEY BLOCK-----
 
 mQGNBGSpaaYBDAC274I6eRnQ65ZNhvGNm9XOFMuwOQOcvP8dKQ0H4VLPL8ZvJAtu
