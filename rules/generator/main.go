@@ -32,7 +32,8 @@ func main() {
 TODO:
 1. Remove all "TODO" comments from generated files.
 2. Write implementation of the rule.
-3. Add a link to the generated documentation into docs/rules/README.md`)
+3. Add the new rule to Rules in main.go
+4. Add a link to the generated documentation into docs/rules/README.md`)
 }
 
 func toCamel(ruleName string) string {
