@@ -27,6 +27,7 @@ func main() {
 				rules.NewFormatterMaxLenRule(),
 				rules.NewFormatterEOFRule(),
 				rules.NewFormatterBlankLineRule(),
+				rules.NewFormatterEmptyFileRule(),
 			},
 		},
 	})
