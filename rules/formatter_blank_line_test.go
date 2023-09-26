@@ -113,6 +113,22 @@ resource "null_resource" "second" {
 				},
 			},
 		},
+		{
+			Name: "only blank line",
+			Content: `
+`,
+			Expected: helper.Issues{
+				{
+					Rule: NewFormatterBlankLineRule(),
+					Message: "too many blank lines at start of file",
+					Range: hcl.Range{
+						Filename: "resource.tf",
+						Start:    hcl.Pos{Line: 1, Column: 1},
+						End:      hcl.Pos{Line: 2, Column: 1},
+					},
+				},
+			},
+		},
 	}
 
 	rule := NewFormatterBlankLineRule()
