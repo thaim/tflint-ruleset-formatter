@@ -127,7 +127,7 @@ func (r *FormatterBlankLineRule) checkFileEnd(runner tflint.Runner, name string,
 	totalLine := countLines(runes)
 	line := 0
 
-	for ; line < totalLine; line++ {
+	for ; line < len(runes); line++ {
 		if runes[len(runes)-line-1] != '\n' {
 			break
 		}
